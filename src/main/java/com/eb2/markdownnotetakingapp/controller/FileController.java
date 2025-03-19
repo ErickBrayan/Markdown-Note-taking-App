@@ -10,8 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -37,7 +36,7 @@ public class FileController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<String> save(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Map<String, String>> save(@RequestParam("file") MultipartFile file) {
 
         if (storageService.isValidExtension(file)) {
             throw new InvalidFile("Invalid file extension");
@@ -45,7 +44,8 @@ public class FileController {
 
         storageService.store(file);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(Collections.singletonMap("message", "File was save successfully"));
     }
 
     @GetMapping("/list-file")

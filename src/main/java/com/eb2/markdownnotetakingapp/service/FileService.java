@@ -28,9 +28,7 @@ public class FileService {
 
             return check.stream()
                     .filter(f -> !f.getSpecificRuleId().equals("WHITESPACE_RULE"))
-                    .map(rm -> {
-                        return new Response(new Position(rm.getFromPos(), rm.getToPos()), rm.getMessage(), rm.getSuggestedReplacements());
-                    }).toList();
+                    .map(rm -> new Response(new Position(rm.getFromPos(), rm.getToPos()), rm.getMessage(), rm.getSuggestedReplacements())).toList();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
